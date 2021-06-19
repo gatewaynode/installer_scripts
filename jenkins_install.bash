@@ -7,6 +7,10 @@
 # Confirmed against:
 #   https://www.jenkins.io/doc/book/installing/linux/
 
+set -o errexit
+set -o nounset
+set -o pipefail
+
 # Get the apt key for jenkins.io
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
 

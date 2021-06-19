@@ -15,6 +15,10 @@
 # Hence we will be pinning this install to Airflow 2.1.0 and the installed 
 # Python3 version.  CHANGE THESE AS NECESSARY.
 
+set -o errexit
+set -o nounset
+set -o pipefail
+
 AIRFLOW_VERSION=2.1.0
 PYTHON_VERSION="$(python3 --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
 CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
