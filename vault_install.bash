@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 #
+# WARNING! This is a dev server install, configuration and startup.
+# !!!NOT SUITABLE FOR PRODUCTION!!!
+#
 # Install Hashicorp Vault for managing secrets
 #
 # Derived from:
@@ -19,3 +22,14 @@ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(l
 # Update the apt index and install the vault package
 sudo apt update
 sudo apt install -y vault
+
+# Start the dev server in a separate process
+echo "Launching dev server in separate process:"
+nohup vault server -dev &
+jobs -l
+
+# Set our API address listener
+export VAULT_ADDR='http://vault.local:8200'
+
+# Parse nohup.out for root token and set that in our DEV server
+export VAULT_TOKEN=`cat nohup.out | tail -12 | grep "^Root Token:.*$" | sed 's/^Root Token\: //g'`
