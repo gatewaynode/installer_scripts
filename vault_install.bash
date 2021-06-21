@@ -2,6 +2,7 @@
 #
 # WARNING! This is a dev server install, configuration and startup.
 # !!!NOT SUITABLE FOR PRODUCTION!!!
+# !!!HONESTLY NOT SUITABLE FOR ANYTHING RIGHT NOW, ALLOCATES ROGUE VARIABLES AND CRASHES!!!
 #
 # Install Hashicorp Vault for managing secrets
 #
@@ -28,8 +29,12 @@ echo "Launching dev server in separate process:"
 nohup vault server -dev &
 jobs -l
 
+# Set our network name resolution
+# sudo echo "127.0.0.1	vault.local" >> /etc/hosts
+# NOT WORKING YET, sudo doesn't stick through the addending redirect
+
 # Set our API address listener
-export VAULT_ADDR='http://vault.local:8200'
+declare -gr VAULT_ADDR='http://vault.local:8200'
 
 # Parse nohup.out for root token and set that in our DEV server
-export VAULT_TOKEN=`cat nohup.out | tail -12 | grep "^Root Token:.*$" | sed 's/^Root Token\: //g'`
+declare -gr VAULT_TOKEN=`cat nohup.out | tail -12 | grep "^Root Token:.*$" | sed 's/^Root Token\: //g'`
